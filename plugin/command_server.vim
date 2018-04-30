@@ -3,13 +3,23 @@
 " of the current file
 " Definitively needs some work (ie: where to execute command depends on which
 " type of project it is)
-function! RunCmdServerCmd(command)
+function! CmdSrvCmd(command)
 	execute "update | !echo '%:p:h\\#" . a:command . "' >> /tmp/command-server-pipe"
 endfunction
+command! -nargs=1 -complete=file CmdSrvSend call CmdSrvCmd('<args>')
 
-command! CmdTest call RunCmdServerCmd(b:test_cmd)
-command! CmdBuild call RunCmdServerCmd(b:build_cmd)
-command! CmdRun call RunCmdServerCmd(b:run_cmd)
-nnoremap <script> <buffer> <silent> <Leader>b :CmdBuild<CR><CR>
-nnoremap <script> <buffer> <silent> <Leader>r :CmdRun<CR><CR>
-nnoremap <script> <buffer> <silent> <Leader>t :CmdTest<CR><CR>
+function! CmdSrvSearchFun(regex)
+	execute "!echo '" . getcwd() . "\\#rg \"\\b" . a:regex . "\\b\"' >> /tmp/command-server-pipe"
+endfunction
+
+
+command! CmdSrvTest call CmdSrvCmd(b:cmdsrv_test)
+command! CmdSrvBuild call CmdSrvCmd(b:cmdsrv_build)
+command! CmdSrvRun call CmdSrvCmd(b:cmdsrv_run)
+command! -nargs=1 -complete=file CmdSrvSearch call CmdSrvSearchFun('<args>')
+
+nnoremap <script> <silent> <Leader>b :CmdSrvBuild<CR><CR>
+nnoremap <script> <silent> <Leader>r :CmdSrvRun<CR><CR>
+nnoremap <script> <silent> <Leader>t :CmdSrvTest<CR><CR>
+nnoremap <script> <silent> <Leader>s :CmdSrvSearch <C-r><C-w><CR><CR>
+vnoremap <script> <silent> <Leader>s y:CmdSrvSearch <C-r>0<CR><CR>

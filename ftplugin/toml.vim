@@ -1,5 +1,5 @@
 if bufname("%") ==# "Cargo.toml"
-	let b:build_cmd = "cargo check"
-	let b:test_cmd = "cargo test"
-	let b:run_cmd = "cargo run"
+	let b:cmdsrv_build = "cargo check"
+	let b:cmdsrv_test = "cargo test"
+	let b:cmdsrv_run = "cargo run"
 endif

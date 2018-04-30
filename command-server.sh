@@ -13,8 +13,7 @@ declare -i count=1
 # while cmd="$(tail -1 $FIFO_FILE)" ; do
 while IFS='#' read -r cmddir cmd <<<"$(tail -1 $FIFO_FILE)" ; do
 	cd "$cmddir"
-	echo -e "in \e[7m$PWD$(tput sgr0)"
-	echo -e ">> \e[7m$cmd$(tput sgr0)"
+	printf "in \e[7m%s$(tput sgr0)\n>> \e[7m%s$(tput sgr0)\n" "$PWD" "$cmd"
 	eval "$cmd"
 	colcount=$(tput cols)
 	printf -v termwidthline '%*s' $colcount
