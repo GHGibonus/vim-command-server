@@ -8,9 +8,9 @@ function! CmdSrvCmd(command)
 endfunction
 command! -nargs=1 -complete=file CmdSrvSend call CmdSrvCmd('<args>')
 
-command! CmdSrvTest call CmdSrvCmd(b:cmdsrv_test)
-command! CmdSrvBuild call CmdSrvCmd(b:cmdsrv_build)
-command! CmdSrvRun call CmdSrvCmd(b:cmdsrv_run)
+command! CmdSrvTest call CmdSrvCmd(g:cmdsrv_test)
+command! CmdSrvBuild call CmdSrvCmd(g:cmdsrv_build)
+command! CmdSrvRun call CmdSrvCmd(g:cmdsrv_run)
 
 nnoremap <script> <silent> <Leader>b :CmdSrvBuild<CR><CR>
 nnoremap <script> <silent> <Leader>r :CmdSrvRun<CR><CR>

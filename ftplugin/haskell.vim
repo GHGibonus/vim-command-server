@@ -1,3 +1,3 @@
-let b:cmdsrv_build = "stack build"
-let b:cmdsrv_test = "cargo test"
-let b:cmdsrv_run = "stack exec elminit"
+let g:cmdsrv_build = "stack build"
+let g:cmdsrv_test = "cargo test"
+let g:cmdsrv_run = "stack exec elminit"

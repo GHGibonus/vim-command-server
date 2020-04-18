@@ -1,3 +1,3 @@
-let b:cmdsrv_build = "compile"
-let b:cmdsrv_test = "test"
-let b:cmdsrv_run = "reStart"
+let g:cmdsrv_build = "compile"
+let g:cmdsrv_test = "test"
+let g:cmdsrv_run = "reStart"

@@ -1,3 +1,3 @@
-let b:cmdsrv_build = "go build %"
-let b:cmdsrv_test = "go test"
-let b:cmdsrv_run = "go run %"
+let g:cmdsrv_build = "go build %"
+let g:cmdsrv_test = "go test"
+let g:cmdsrv_run = "go run %"

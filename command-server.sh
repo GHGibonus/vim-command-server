@@ -5,11 +5,11 @@
 
 FIFO_FILE=/tmp/command-server-pipe
 if [ -e $FIFO_FILE ] ; then
-	rm $FIFO_FILE
+    rm $FIFO_FILE
 fi
 mkfifo $FIFO_FILE
 
-if [ $1 = "sbt" ] ; then
+if [ ${1:-notsbt} = "sbt" ] ; then
     SBT_PIPE=$(mktemp -d)
     SBT_PIPE=${SBT_PIPE:-/tmp/tmp.XXXXXX}
     mkfifo $SBT_PIPE/p
@@ -33,18 +33,18 @@ function open-qute {
 declare -i count=1
 # while cmd="$(tail -1 $FIFO_FILE)" ; do
 while IFS='#' read -r cmddir cmd <<<"$(tail -1 $FIFO_FILE)" ; do
-	cd "$cmddir"
-	printf "in \e[7m%s$(tput sgr0)\n>> \e[7m%s$(tput sgr0)\n" "$PWD" "$cmd"
-    if [ $1 = "sbt" ] ; then
+    cd "$cmddir"
+    printf "in \e[7m%s$(tput sgr0)\n>> \e[7m%s$(tput sgr0)\n" "$PWD" "$cmd"
+    if [ ${1:-notsbt} = "sbt" ] ; then
         echo "$cmd" >> $SBT_PIPE/p
     else
         eval "$cmd"
     fi
-	colcount=$(tput cols)
-	printf -v termwidthline '%*s' $colcount
-	echo -e "\e[7m$(tput setaf 5)${termwidthline// /-}"
-	printf "#%-3s ^%-$((colcount-6))s\n" $count "$cmd"
-	echo -e "${termwidthline// /-}$(tput sgr0)"
-	count+=1
+    colcount=$(tput cols)
+    printf -v termwidthline '%*s' $colcount
+    echo -e "\e[7m$(tput setaf 5)${termwidthline// /-}"
+    printf "#%-3s ^%-$((colcount-6))s\n" $count "$cmd"
+    echo -e "${termwidthline// /-}$(tput sgr0)"
+    count+=1
 done
 
